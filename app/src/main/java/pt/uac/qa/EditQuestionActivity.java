@@ -3,7 +3,7 @@ package pt.uac.qa;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class QuestionActivity extends AppCompatActivity {
+public class EditQuestionActivity extends AppCompatActivity {
 
 
     @Override

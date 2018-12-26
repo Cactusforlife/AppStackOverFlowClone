@@ -32,7 +32,7 @@ import pt.uac.qa.model.QuestionResults;
 /**
  * Created by Patrício Cordeiro <patricio.cordeiro@gmail.com> on 10-12-2018.
  */
-public final class QuestionsFragment extends Fragment {
+public final class MyQuestionsFragment extends Fragment {
     private QuestionFilter questionFilter = new QuestionFilter();
     private View questionContainer;
     private ProgressBar progressBar;
@@ -121,7 +121,7 @@ public final class QuestionsFragment extends Fragment {
         protected QuestionResults doInBackground(Void... voids) {
             try {
                 final QuestionClient questionClient = new QuestionClient(getActivity());
-                return questionClient.getQuestions(questionFilter);
+                return questionClient.getMyQuestions(questionFilter);
             } catch (ClientException e) {
                 e.printStackTrace();
                 return null;

@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case R.id.nav_all_my_questions:
+                        displayFragment(new MyQuestionsFragment());
 
                         break;
 
