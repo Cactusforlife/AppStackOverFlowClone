@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_questions"
+            android:checked="true"
+            android:title="Todas as perguntas" />
+        <item
+            android:id="@+id/nav_all_my_questions"
+            android:title="As minhas perguntas" />
+        <item
+            android:id="@+id/nav_all_my_anwsers"
+            android:title="As minhas respostas" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Sign Out" />
+    </group>
+</menu>
