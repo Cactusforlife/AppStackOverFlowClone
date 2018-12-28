@@ -34,11 +34,20 @@ public class Question {
         @SuppressLint("SimpleDateFormat") final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final Question question = new Question();
 
-        question.setQuestionId(jsonObject.getString("questionId"));
+        if(!jsonObject.isNull("questionId")){
+            question.setQuestionId(jsonObject.getString("questionId"));
+        }
 
-        question.setTitle(jsonObject.getString("title"));
 
-        question.setUser(User.fromJson(jsonObject.getJSONObject("user")));
+        if(!jsonObject.isNull("title")){
+            question.setTitle(jsonObject.getString("title"));
+        }
+
+
+        if(!jsonObject.isNull("user")){
+            question.setUser(User.fromJson(jsonObject.getJSONObject("user")));
+        }
+
 
         final JSONArray jsonTagArray = jsonObject.getJSONArray("tags");
         final List<String> tags = new ArrayList<>();

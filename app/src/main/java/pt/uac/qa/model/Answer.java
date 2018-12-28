@@ -93,13 +93,21 @@ public class Answer {
         @SuppressLint("SimpleDateFormat") final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final Answer answer = new Answer();
 
-        answer.setAnswerId(jsonObject.getString("answerId"));
+        if(!jsonObject.isNull("answerId")) {
+            answer.setAnswerId(jsonObject.getString("answerId"));
+        }
 
-        answer.setQuestion(Question.fromJson(jsonObject.getJSONObject("question")));
+        if(!jsonObject.isNull("question")){
+            answer.setQuestion(Question.fromJson(jsonObject.getJSONObject("question")));
+        }
 
-        answer.setUser(User.fromJson(jsonObject.getJSONObject("user")));
+        if(!jsonObject.isNull("user")){
+            answer.setUser(User.fromJson(jsonObject.getJSONObject("user")));
+        }
 
-        answer.setBody(jsonObject.getString("body"));
+        if(!jsonObject.isNull("body")){
+            answer.setBody(jsonObject.getString("body"));
+        }
 
 
         try{
