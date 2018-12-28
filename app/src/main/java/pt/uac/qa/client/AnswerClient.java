@@ -25,8 +25,8 @@ public class AnswerClient extends AuthenticatedClient {
         try {
             final String queryString = filter.toQueryString();
             final String url = queryString != null
-                    ? "my/answers?" + queryString
-                    : "my/answers";
+                    ? "/my/answers?" + queryString
+                    : "/my/answers";
 
             final HttpResponse response = httpClient.get(url);
             validateResponse(response);
