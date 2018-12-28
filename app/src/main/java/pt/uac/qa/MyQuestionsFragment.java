@@ -135,6 +135,7 @@ public final class MyQuestionsFragment extends Fragment {
 
             if (result == null) {
                 Toast.makeText(getActivity(), "Error fetching the questions from the server", Toast.LENGTH_LONG).show();
+                return;
             }
 
             if (result.getAttributes().getPagination().getTotalPages() == 1) {
