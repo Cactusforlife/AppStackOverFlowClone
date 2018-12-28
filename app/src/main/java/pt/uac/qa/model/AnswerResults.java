@@ -7,25 +7,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Patrício Cordeiro <patricio.cordeiro@gmail.com> on 11-12-2018.
- */
-public class QuestionResults {
+public class AnswerResults {
     private int count;
     private boolean empty;
     private Attributes attributes;
-    private List<Question> data;
+    private List<Answer> data;
 
-    public static QuestionResults fromJson(final JSONObject jsonObject) throws JSONException {
-        final QuestionResults result = new QuestionResults();
+    public static AnswerResults fromJson(final JSONObject jsonObject) throws JSONException {
+        final AnswerResults result = new AnswerResults();
         final JSONArray jsonArray = jsonObject.getJSONArray("data");
-        final List<Question> questions = new ArrayList<>();
+        final List<Answer> answers = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); ++i) {
-            questions.add(Question.fromJson(jsonArray.getJSONObject(i)));
+            answers.add(Answer.fromJson(jsonArray.getJSONObject(i)));
         }
 
-        result.setData(questions);
+        result.setData(answers);
         result.setCount(jsonObject.getInt("count"));
         result.setEmpty(jsonObject.getBoolean("isEmpty"));
         result.setAttributes(Attributes.fromJson(jsonObject.getJSONObject("attributes")));
@@ -57,17 +54,16 @@ public class QuestionResults {
         this.attributes = attributes;
     }
 
-    public List<Question> getData() {
+    public List<Answer> getData() {
         return data;
     }
 
-    public void setData(List<Question> data) {
+    public void setData(List<Answer> data) {
         this.data = data;
     }
 
     public static final class Attributes {
 
-        private String tag;
         private String pattern;
         private Pagination pagination;
         private String page;
@@ -75,9 +71,6 @@ public class QuestionResults {
 
         static Attributes fromJson(final JSONObject jsonObject) throws JSONException {
             final Attributes attributes = new Attributes();
-
-            if (!jsonObject.isNull("tag"))
-                attributes.setTag(jsonObject.getString("tag"));
 
             if (!jsonObject.isNull("pattern"))
                 attributes.setPattern(jsonObject.getString("pattern"));
@@ -91,14 +84,6 @@ public class QuestionResults {
             attributes.setPagination(Pagination.fromJson(jsonObject.getJSONObject("pagination")));
 
             return attributes;
-        }
-
-        public String getTag() {
-            return tag;
-        }
-
-        public void setTag(String tag) {
-            this.tag = tag;
         }
 
         public String getPattern() {

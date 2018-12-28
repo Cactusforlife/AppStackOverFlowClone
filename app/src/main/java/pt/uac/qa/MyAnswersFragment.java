@@ -23,27 +23,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import pt.uac.qa.client.AnswerClient;
+import pt.uac.qa.client.AnswerFilter;
 import pt.uac.qa.client.ClientException;
-import pt.uac.qa.client.QuestionClient;
-import pt.uac.qa.client.QuestionFilter;
-import pt.uac.qa.model.Question;
-import pt.uac.qa.model.QuestionResults;
+import pt.uac.qa.model.Answer;
+import pt.uac.qa.model.AnswerResults;
 
 /**
  * Created by Patrício Cordeiro <patricio.cordeiro@gmail.com> on 10-12-2018.
  */
-public final class MyQuestionsFragment extends Fragment {
-    private QuestionFilter questionFilter = new QuestionFilter();
-    private View questionContainer;
+public final class MyAnswersFragment extends Fragment {
+
+    private AnswerFilter answerFilter = new AnswerFilter();
+    private View answerContainer;
     private ProgressBar progressBar;
     private View pagination;
     private TextView pageView;
-    private QuestionAdapter questionAdapter;
+    private AnswerAdapter answerAdapter;
 
-        @Nullable
-        @Override
+    @Nullable
+    @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_questions, null);
+        return inflater.inflate(R.layout.fragment_my_answers, null);
     }
 
     @Override
@@ -52,14 +53,14 @@ public final class MyQuestionsFragment extends Fragment {
         final Button prevButton = view.findViewById(R.id.prev_button);
         final Button nextButton = view.findViewById(R.id.next_button);
 
-        listView.setAdapter((questionAdapter = new QuestionAdapter(getActivity())));
+        listView.setAdapter((answerAdapter = new AnswerAdapter(getActivity())));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Question q = (Question) questionAdapter.getItem(position);
-                final Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
-                intent.putExtra("questionId", q.getQuestionId());
+                Answer a = (Answer) answerAdapter.getItem(position);
+                final Intent intent = new Intent(getActivity(), EditAnswerActivity.class);
+                intent.putExtra("answerId", a.getAnswerId());
 
                 startActivity(intent);
 
@@ -80,7 +81,7 @@ public final class MyQuestionsFragment extends Fragment {
             }
         });
 
-        questionContainer = view.findViewById(R.id.question_container);
+        answerContainer = view.findViewById(R.id.answer_container);
         progressBar = view.findViewById(R.id.progress_bar);
         pagination = view.findViewById(R.id.pagination);
         pageView = view.findViewById(R.id.page_text_view);
@@ -91,10 +92,10 @@ public final class MyQuestionsFragment extends Fragment {
     private void showProgress(final boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
-            questionContainer.setVisibility(View.INVISIBLE);
+            answerContainer.setVisibility(View.INVISIBLE);
         } else {
             progressBar.setVisibility(View.GONE);
-            questionContainer.setVisibility(View.VISIBLE);
+            answerContainer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -107,21 +108,19 @@ public final class MyQuestionsFragment extends Fragment {
     }
 
     private void loadData() {
-        new LoadQuestionsTask().execute();
+        new LoadAnswersTask().execute();
     }
 
     @SuppressLint("StaticFieldLeak")
-    private final class LoadQuestionsTask extends AsyncTask<Void, Void, QuestionResults> {
+    private final class LoadAnswersTask extends AsyncTask<Void, Void, AnswerResults> {
         @Override
-        protected void onPreExecute() {
-            showProgress(true);
-        }
+        protected void onPreExecute() { showProgress(true); }
 
         @Override
-        protected QuestionResults doInBackground(Void... voids) {
+        protected AnswerResults doInBackground(Void... voids) {
             try {
-                final QuestionClient questionClient = new QuestionClient(getActivity());
-                return questionClient.getMyQuestions(questionFilter);
+                final AnswerClient answerClient = new AnswerClient(getActivity());
+                return answerClient.getMyAnswers(answerFilter);
             } catch (ClientException e) {
                 e.printStackTrace();
                 return null;
@@ -130,11 +129,11 @@ public final class MyQuestionsFragment extends Fragment {
 
         @SuppressWarnings("ConstantConditions")
         @Override
-        protected void onPostExecute(final QuestionResults result) {
+        protected void onPostExecute(final AnswerResults result) {
             showProgress(false);
 
             if (result == null) {
-                Toast.makeText(getActivity(), "Error fetching the questions from the server", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Error fetching the answers from the server", Toast.LENGTH_LONG).show();
             }
 
             if (result.getAttributes().getPagination().getTotalPages() == 1) {
@@ -146,34 +145,33 @@ public final class MyQuestionsFragment extends Fragment {
                                 result.getAttributes().getPagination().getTotalPages()));
             }
 
-
-            questionAdapter.loadQuestions(result.getData());
+            answerAdapter.loadAnswers(result.getData());
         }
     }
 
-    private static final class QuestionAdapter extends BaseAdapter {
+    private static final class AnswerAdapter extends BaseAdapter {
 
-        private final List<Question> questionList = new ArrayList<>();
+        private final List<Answer> answerList = new ArrayList<>();
         private final LayoutInflater inflater;
 
-        QuestionAdapter(final Context context) {
+        AnswerAdapter(final Context context) {
             this.inflater = LayoutInflater.from(context);
         }
 
-        public void loadQuestions(final List<Question> questions) {
-            questionList.clear();
-            questionList.addAll(questions);
+        public void loadAnswers(final List<Answer> answers) {
+            answerList.clear();
+            answerList.addAll(answers);
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return questionList.size();
+            return answerList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return questionList.get(position);
+            return answerList.get(position);
         }
 
         @Override
@@ -183,12 +181,12 @@ public final class MyQuestionsFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final Question question = (Question) getItem(position);
+            final Answer answer = (Answer) getItem(position);
             final ViewHolder holder;
 
             if(convertView == null)
             {
-                convertView = inflater.inflate(R.layout.question_list_item, null);
+                convertView = inflater.inflate(R.layout.answer_list_item, null);
                 holder = new ViewHolder(convertView);
                 convertView.setTag(holder);
 
@@ -196,7 +194,7 @@ public final class MyQuestionsFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.displayQuestion(question);
+            holder.displayAnswer(answer);
 
             return convertView;
 
@@ -218,12 +216,12 @@ public final class MyQuestionsFragment extends Fragment {
 
         }
 
-        void displayQuestion(final Question question) {
+        void displayAnswer(final Answer answer) {
 
 
-            titleView.setText(question.getTitle());
-            userView.setText(question.getUser().getName());
-            dateView.setText(question.getDatePublished().toString());
+            titleView.setText(answer.getQuestion().getTitle());
+            userView.setText(answer.getUser().getName());
+            dateView.setText(answer.getDatePublished().toString());
 
         }
     }

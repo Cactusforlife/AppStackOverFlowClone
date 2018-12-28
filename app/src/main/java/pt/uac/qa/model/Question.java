@@ -17,7 +17,6 @@ import java.util.List;
  * Created by Patrício Cordeiro <patricio.cordeiro@gmail.com> on 09-12-2018.
  */
 public class Question {
-    // TODO: add necessary fields
 
     private String questionId;
     private String title;
@@ -26,9 +25,7 @@ public class Question {
     private Date datePublished;
 
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
-    }
+
 
     public static Question fromJson(final JSONObject jsonObject) throws JSONException {
 
@@ -99,6 +96,10 @@ public class Question {
 
     public String getQuestionId() {
         return questionId;
+    }
+
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
     }
 
     public String getTitle() {

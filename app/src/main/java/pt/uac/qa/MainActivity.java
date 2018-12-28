@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_all_my_anwsers:
+                        displayFragment(new MyAnswersFragment());
                         break;
 
                     case R.id.nav_logout:
