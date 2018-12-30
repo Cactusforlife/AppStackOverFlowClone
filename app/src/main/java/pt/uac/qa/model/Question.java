@@ -48,24 +48,26 @@ public class Question {
             question.setUser(User.fromJson(jsonObject.getJSONObject("user")));
         }
 
+        if(!jsonObject.isNull("tags")) {
 
-        final JSONArray jsonTagArray = jsonObject.getJSONArray("tags");
-        final List<String> tags = new ArrayList<>();
+            final JSONArray jsonTagArray = jsonObject.getJSONArray("tags");
+            final List<String> tags = new ArrayList<>();
 
-        for(int i = 0; i < jsonTagArray.length();i++){
-            tags.add(jsonTagArray.getString(i));
+            for (int i = 0; i < jsonTagArray.length(); i++) {
+                tags.add(jsonTagArray.getString(i));
+            }
+
+
+            question.setTags(tags);
+
         }
-
-
-        question.setTags(tags);
-
-
-
-        try{
-            question.setDatePublished(dateFormat.parse(
-                    jsonObject.getJSONObject("datePublished").getString("date")));
-        } catch (ParseException e){
-            throw new RuntimeException(e);
+        if(!jsonObject.isNull("datePublished")) {
+            try {
+                question.setDatePublished(dateFormat.parse(
+                        jsonObject.getJSONObject("datePublished").getString("date")));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return question;

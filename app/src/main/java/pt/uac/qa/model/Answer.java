@@ -109,14 +109,14 @@ public class Answer {
             answer.setBody(jsonObject.getString("body"));
         }
 
-
-        try{
-            answer.setDatePublished(dateFormat.parse(
-                    jsonObject.getJSONObject("datePublished").getString("date")));
-        } catch (ParseException e){
-            throw new RuntimeException(e);
+        if(!jsonObject.isNull("datePublished")) {
+            try {
+                answer.setDatePublished(dateFormat.parse(
+                        jsonObject.getJSONObject("datePublished").getString("date")));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
-
         return answer;
 
     }
