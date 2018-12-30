@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditQuestionActivity"></activity>
+        <activity android:name=".EditAnswerActivity"></activity>
     </application>
 
 </manifest>
