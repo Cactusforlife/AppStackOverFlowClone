@@ -20,6 +20,7 @@ public class Question {
 
     private String questionId;
     private String title;
+    private String body;
     private User user;
     private List<String> tags;
     private Date datePublished;
@@ -41,6 +42,10 @@ public class Question {
 
         if(!jsonObject.isNull("title")){
             question.setTitle(jsonObject.getString("title"));
+        }
+
+        if(!jsonObject.isNull("body")){
+            question.setTitle(jsonObject.getString("body"));
         }
 
 
@@ -79,6 +84,14 @@ public class Question {
         // TODO: set the fields on the jsonObject object
 
         return jsonObject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public User getUser() {

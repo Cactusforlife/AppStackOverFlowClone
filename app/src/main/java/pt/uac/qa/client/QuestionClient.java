@@ -37,6 +37,17 @@ public class QuestionClient extends AuthenticatedClient {
         }
     }
 
+    public Question getQuestion(final String questionId) throws ClientException{
+        try {
+            final String url = "/questions/" + questionId;
+            final HttpResponse response = httpClient.get(url);
+            validateResponse(response);
+            return Question.fromJson( new JSONObject(response.getContent()));
+        } catch (JSONException | IOException e) {
+            throw new ClientException(e);
+        }
+    }
+
     public QuestionResults getMyQuestions(final QuestionFilter filter) throws ClientException {
         try {
             final String queryString = filter.toQueryString();

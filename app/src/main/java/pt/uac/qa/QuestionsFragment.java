@@ -30,6 +30,8 @@ import pt.uac.qa.client.QuestionFilter;
 import pt.uac.qa.model.Question;
 import pt.uac.qa.model.QuestionResults;
 
+import static pt.uac.qa.MyQuestionsFragment.QUESTIONID;
+
 /**
  * Created by Patrício Cordeiro <patricio.cordeiro@gmail.com> on 10-12-2018.
  */
@@ -40,6 +42,8 @@ public final class QuestionsFragment extends Fragment {
     private View pagination;
     private TextView pageView;
     private QuestionAdapter questionAdapter;
+    public static final String QUESTIONID = "questionId";
+
 
     @Nullable
     @Override
@@ -60,8 +64,8 @@ public final class QuestionsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Question q = (Question) questionAdapter.getItem(position);
-                final Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
-                intent.putExtra("questionId", q.getQuestionId());
+                final Intent intent = new Intent(getActivity(), QuestionDisplay.class);
+                intent.putExtra(QUESTIONID, q.getQuestionId());
 
                 startActivity(intent);
 

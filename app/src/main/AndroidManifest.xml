@@ -37,6 +37,7 @@
         <activity android:name=".EditQuestionActivity"></activity>
         <activity android:name=".EditAnswerActivity"></activity>
         <activity android:name=".AddQuestionActivity"></activity>
+        <activity android:name=".QuestionDisplay" />
 
     </application>
 
