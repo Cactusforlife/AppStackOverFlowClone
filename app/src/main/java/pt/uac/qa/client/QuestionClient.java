@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import pt.uac.qa.model.Question;
 import pt.uac.qa.model.QuestionResults;
 
 /**
@@ -50,4 +51,16 @@ public class QuestionClient extends AuthenticatedClient {
             throw new ClientException(e);
         }
     }
+
+    public Question addQuestion(final JSONObject body) throws ClientException{
+        try {
+            final String url = "/questions";
+            final HttpResponse response = httpClient.post(url, body.toString());
+            validateResponse(response);
+            return Question.fromJson( new JSONObject(response.getContent()));
+        } catch (JSONException | IOException e) {
+            throw new ClientException(e);
+        }
+    }
+
 }

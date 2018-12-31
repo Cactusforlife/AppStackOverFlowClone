@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ public final class MyQuestionsFragment extends Fragment {
         final ListView listView = view.findViewById(R.id.list_view);
         final Button prevButton = view.findViewById(R.id.prev_button);
         final Button nextButton = view.findViewById(R.id.next_button);
+        final FloatingActionButton fab = view.findViewById(R.id.add_question);
 
         listView.setAdapter((questionAdapter = new QuestionAdapter(getActivity())));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +65,14 @@ public final class MyQuestionsFragment extends Fragment {
 
                 startActivity(intent);
 
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent = new Intent(v.getContext(), AddQuestionActivity.class);
+                startActivity(intent);
             }
         });
 
